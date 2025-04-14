@@ -1,5 +1,5 @@
 const connection = require('../data/db')
-const { post } = require('../routers/postsRouter')
+
 
 
 function index(req, res) {
@@ -17,7 +17,9 @@ function index(req, res) {
 function show(req, res) {
 
   const postSlug = (req.params.slug)
+
   const slug = postSlug.replaceAll('-', ' ')
+
   const sql = 'SELECT * FROM posts WHERE title = ?'
 
   const sqlJoin = `
@@ -43,7 +45,21 @@ function show(req, res) {
 
 }
 
+function destroy(req, res) {
+  const postSlug = (req.params.slug)
+
+  const slug = postSlug.replaceAll('-', ' ')
+
+  const sql = 'DELETE FROM posts WHERE title = ?'
+
+  connection.query(sql, [slug], (err) => {
+    if (err) return res.status(500).json({ error: 'Failed to delete post' })
+    res.sendStatus(204)
+
+  })
+}
 module.exports = {
   index,
-  show
+  show,
+  destroy
 }

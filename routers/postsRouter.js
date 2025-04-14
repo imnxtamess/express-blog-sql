@@ -6,6 +6,8 @@ const postsController = require("../controllers/postsController")
 router.get("/", postsController.index)
 //show (read)
 router.get("/:slug", postsController.show)
+// destroy 
+router.delete("/:slug", postsController.destroy)
 
 
 module.exports = router
